@@ -1,7 +1,9 @@
 # Monkey Interpreter 🙈
 
-Building an interpreter for the Monkey Programming Language following along
-with [interpreterbook](https://interpreterbook.com) by Thorsten Ball
+Building an interpreter for the Monkey Programming Language.
+
+Following along with the [interpreterbook](https://interpreterbook.com)
+by Thorsten Ball
 
                .-"""-.
              _/-=-.   \
