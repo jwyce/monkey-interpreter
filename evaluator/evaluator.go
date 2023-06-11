@@ -67,6 +67,10 @@ func Eval(node ast.Node, env *object.Environment) object.Object {
 		body := node.Body
 		return &object.Function{Parameters: params, Env: env, Body: body}
 	case *ast.CallExpression:
+		if node.Function.TokenLiteral() == "quote" {
+			return quote(node.Arguments[0], env)
+		}
+
 		function := Eval(node.Function, env)
 		if isError(function) {
 			return function
@@ -322,19 +326,19 @@ func evalArrayIndexExpression(array, index object.Object) object.Object {
 }
 
 func evalHashIndexExpression(hash, index object.Object) object.Object {
-  hashObject := hash.(*object.Hash)
+	hashObject := hash.(*object.Hash)
 
-  key, ok := index.(object.Hashable)
-  if !ok {
-    return newError("unusable as hash key: %s", index.Type())
-  }
+	key, ok := index.(object.Hashable)
+	if !ok {
+		return newError("unusable as hash key: %s", index.Type())
+	}
 
-  pair, ok := hashObject.Pairs[key.HashKey()]
-  if !ok {
-    return NULL
-  }
+	pair, ok := hashObject.Pairs[key.HashKey()]
+	if !ok {
+		return NULL
+	}
 
-  return pair.Value
+	return pair.Value
 }
 
 func evalHashLiteral(
